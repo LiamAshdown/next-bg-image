@@ -2,27 +2,15 @@ import * as imageImport from 'next/image';
 import type { StaticImageData } from 'next/image';
 
 export function imgBaseUrl(image: StaticImageData): string | null {
-  if (`unstable_getImgProps` in imageImport) {
-    // @ts-ignore
-    const imgProps = imageImport.unstable_getImgProps({
-      src: image.src,
-      alt: ``,
-      width: image.width,
-      height: image.height,
-    });
+  // @ts-ignore
+  const imgProps = imageImport.getImageProps({
+    src: image.src,
+    alt: ``,
+    width: image.width,
+    height: image.height,
+  });
 
-    return imgProps.props.srcSet?.split(/\s/)[0]?.split(`&`)[0] ?? null;
-  } else {
-    // @ts-ignore
-    const imgProps = imageImport.getImageProps({
-      src: image.src,
-      alt: ``,
-      width: image.width,
-      height: image.height,
-    });
-
-    return imgProps.props.srcSet?.split(/\s/)[0]?.split(`&`)[0] ?? null;
-  }
+  return imgProps.props.srcSet?.split(/\s/)[0]?.split(`&`)[0] ?? null;
 }
 
 export function sizedImg(baseUrl: string, width: number): string {
